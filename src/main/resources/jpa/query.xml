@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+    version="2.0">
+
+    <!--named-query name="exposureKeyEvent.findByRuleId">
+        <query>
+            SELECT ek
+            FROM ExposureKeyEvent ek, RuleInputEvent ri
+            WHERE ri.rule.id = :ruleId
+                AND ek.id = ri.exposureKeyId
+        </query>
+    </named-query-->
+    <!--named-query name="exposureKeyEvent.findByWildcard">
+        <query>
+            FROM ExposureKeyEvent
+            WHERE LOWER(name) LIKE :name AND type IN ('N', 'Y')
+        </query>
+    </named-query-->
+
+    <named-query name="seriesDataEvent.findByNaturalId">
+        <query>
+            FROM SeriesDataEvent
+            WHERE exposureKeyId = :exposureKeyId
+                AND date = :date
+        </query>
+    </named-query>
+    <named-query name="seriesDataEvent.findByRuleId">
+        <query>
+            SELECT sd
+            FROM SeriesDataEvent sd, RuleInputEvent ri
+            WHERE ri.rule.id = :ruleId
+                AND sd.exposureKeyId = ri.exposureKeyId
+                AND sd.date = :date
+        </query>
+    </named-query>
+    <named-query name="seriesDataEvent.findByWildcard">
+        <query>
+            SELECT sd
+            FROM SeriesDataEvent sd, ExposureKeyEvent ek
+            WHERE LOWER(ek.name) LIKE :name AND ek.type IN ('N', 'Y')
+                AND sd.exposureKeyId = ek.id
+                AND sd.date = :date
+        </query>
+    </named-query>
+
+    <named-native-query name="exposureKeyEvent.findByRuleId"
+            result-class="au.com.totemsoft.amax.model.ExposureKeyEvent">
+        <query>
+            SELECT ek.*,
+                ri.name, ri.output_type, ri.output_key_id
+            FROM series_data_key ek, amax_rule_input ri
+            WHERE ri.rule_id = :ruleId
+                AND ek.key_id = ri.key_id
+        </query>
+    </named-native-query>
+    <named-native-query name="exposureKeyEvent.findByWildcard"
+           result-class="au.com.totemsoft.amax.model.ExposureKeyEvent">
+        <query>
+            SELECT ek.*,
+                NULL name, NULL input_type, NULL output_key_id
+            FROM series_data_key ek
+            WHERE LOWER(ek.key_name) LIKE :name AND ek.key_type IN ('N', 'Y')
+        </query>
+    </named-native-query>
+
+</entity-mappings>

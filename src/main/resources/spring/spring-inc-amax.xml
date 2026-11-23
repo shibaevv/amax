@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- ========================= CONSTANTS ========================= -->
+    <util:constant id="TRUE" static-field="java.lang.Boolean.TRUE" />
+    <util:constant id="FALSE" static-field="java.lang.Boolean.FALSE" />
+
+    <context:annotation-config />
+    <context:component-scan base-package="au.com.totemsoft.amax" />
+
+    <import resource="classpath:spring/spring-inc-jpa.xml" />
+
+    <!-- ========================= JSON DEFINITIONS ==================== -->
+    <bean id="converter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper">
+            <bean class="au.com.totemsoft.amax.ObjectMapperFactoryBean" />
+        </property>
+    </bean>
+
+    <!-- ========================= Conversion DEFINITIONS ==================== -->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="au.com.totemsoft.amax.converter.ExposureKeyEventToBigDecimalConverter" />
+                <bean class="au.com.totemsoft.amax.converter.ExposureKeyEventToSerieDataEventConverter" />
+                <bean class="au.com.totemsoft.amax.converter.SeriesDataEventToBigDecimalConverter" />
+            </set>
+        </property>
+    </bean>
+    <bean id="typeConverter" class="org.springframework.expression.spel.support.StandardTypeConverter"
+        c:conversionService-ref="conversionService" />
+
+    <!-- ========================= TRANSLATOR DEFINITIONS ==================== -->
+    <bean id="context"               class="au.com.totemsoft.amax.model.Context"          p:converter-ref="converter" />
+    <bean id="exposureKeyEvent"      class="au.com.totemsoft.amax.model.ExposureKeyEvent" p:converter-ref="converter" />
+    <bean id="ruleEvent"             class="au.com.totemsoft.amax.model.RuleEvent"        p:converter-ref="converter" />
+    <bean id="ruleInputEvent"        class="au.com.totemsoft.amax.model.RuleInputEvent"   p:converter-ref="converter" />
+    <bean id="seriesDataEvent"       class="au.com.totemsoft.amax.model.SeriesDataEvent"  p:converter-ref="converter" />
+
+    <!-- ========================= OTHER DEFINITIONS ==================== -->
+    <bean id="beanResolver"          class="org.springframework.context.expression.BeanFactoryResolver" />
+
+    <import resource="classpath:spring/spring-inc-aspect.xml" />
+    <!--import resource="classpath:spring/spring-inc-ignite.xml" /-->
+
+</beans>

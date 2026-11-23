@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+
+  <persistence-unit name="amax" transaction-type="RESOURCE_LOCAL">
+    <mapping-file>jpa/query.xml</mapping-file>
+
+    <class>au.com.totemsoft.amax.model.ExposureKeyEvent</class>
+    <class>au.com.totemsoft.amax.model.RuleEvent</class>
+    <class>au.com.totemsoft.amax.model.RuleInputEvent</class>
+    <class>au.com.totemsoft.amax.model.SeriesDataEvent</class>
+
+    <!-- JPA 2.0 way to specify whether the entities and entity-related state of a persistence unit will be cached -->
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+  </persistence-unit>
+
+</persistence>
