@@ -2,7 +2,6 @@ package au.com.totemsoft.amax.dao.cache;
 
 /**
  * Cache key/name used
- * @author vchibaev (Valeri SHIBAEV)
  */
 public interface NamedCache {
 

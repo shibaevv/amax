@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import au.com.totemsoft.amax.IBase;
 import au.com.totemsoft.amax.ServiceException;
 import au.com.totemsoft.amax.model.ExposureKeyEvent;
-import au.com.totemsoft.amax.model.SeriesDataEvent;
 import au.com.totemsoft.amax.model.ExposureKeyEvent.ExposureKeyEventComparator;
+import au.com.totemsoft.amax.model.SeriesDataEvent;
 
 @Component
 public class TemplateContext {

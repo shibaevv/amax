@@ -2,10 +2,6 @@ package au.com.totemsoft.amax.expression;
 
 import java.lang.reflect.Method;
 
-/**
- * 
- * @author vchibaev (Valeri SHIBAEV)
- */
 public class FunctionArguments {
 
     private final Method function;
@@ -17,16 +13,10 @@ public class FunctionArguments {
         this.arguments = arguments;
     }
 
-    /**
-     * @return the function
-     */
     public Method getFunction() {
         return function;
     }
 
-    /**
-     * @return the arguments
-     */
     public Object[] getArguments() {
         return arguments;
     }

@@ -25,13 +25,12 @@ import org.springframework.http.converter.HttpMessageConverter;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import au.com.totemsoft.amax.tool.TextHttpInputMessage;
 import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
 import lombok.Getter;
 import lombok.Setter;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "amax_rule")
@@ -107,7 +106,7 @@ public class RuleEvent extends AbstractEvent<Long> {
     public Collection<RuleInputEvent> inputs(final boolean generated) {
         return inputs == null ? Collections.emptyList() : CollectionUtils.select(inputs, new Predicate() {
             public boolean evaluate(Object o) {
-                final int type = ((RuleInputEvent) o).getType();
+                final int type = ((RuleInputEvent) o).getOutputType();
                 return RuleInputTypeEnum.isInput(type) || (generated && RuleInputTypeEnum.isInputGenerated(type));
             }
         });
@@ -117,7 +116,7 @@ public class RuleEvent extends AbstractEvent<Long> {
     public Collection<RuleInputEvent> outputs(final boolean generated) {
         return inputs == null ? Collections.emptyList() : CollectionUtils.select(inputs, new Predicate() {
             public boolean evaluate(Object o) {
-                final int type = ((RuleInputEvent) o).getType();
+                final int type = ((RuleInputEvent) o).getOutputType();
                 return RuleInputTypeEnum.isOutput(type) || (generated && RuleInputTypeEnum.isOutputGenerated(type));
             }
         });

@@ -4,9 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum ExposureKeyTypeEnum {
 
-    RAW("N"),
-    AGGREGATED("Y"),
-    ALIAS("A"),
+    RAW("R"),
+    AGGREGATED("A"),
     TEMPLATE("T"),
     WILDCARD("W"),
     ;
@@ -77,9 +76,6 @@ public enum ExposureKeyTypeEnum {
     }
     public static boolean isAggregated(String type) {
         return AGGREGATED.getType().equals(type);
-    }
-    public static boolean isAlias(String type) {
-        return ALIAS.getType().equals(type);
     }
     public static boolean isTemplate(String type) {
         return TEMPLATE.getType().equals(type);

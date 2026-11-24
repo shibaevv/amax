@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
 
 import au.com.totemsoft.amax.IBase;
 import au.com.totemsoft.amax.dao.AbstractDao;

@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * @see org.springframework.cache.annotation.Cacheable
- * @author vchibaev (Valeri SHIBAEV)
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

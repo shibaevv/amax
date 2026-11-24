@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -37,9 +37,10 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 class RuleEventTest {
 
-    @Autowired @Qualifier("dataSource") private DataSource dataSource;
+    @Value("${db.url}")
+    private String dbUrl;
 
-    private Context context;
+    @Autowired private DataSource dataSource;
 
     @Autowired private RuleEventDao ruleEventDao;
 
@@ -61,6 +62,8 @@ class RuleEventTest {
     @Autowired private RuleDisruptor outputRuleDisruptor;
     @Autowired private RulePostProcessor outputRuleProcessor;
 
+    private Context context;
+
     private LocalDate latestDate() {
         return LocalDate.now().minusDays(1);
     }
@@ -68,7 +71,7 @@ class RuleEventTest {
     @SuppressWarnings("unchecked")
     @BeforeEach
     public void before() {
-        context = new Context(latestDate());
+        log.info("dbUrl: {}", dbUrl);
 
         // Connect the handler(s)
         ruleDisruptor
@@ -105,7 +108,7 @@ class RuleEventTest {
     public final void test() throws Exception {
         context = new Context(latestDate());
 
-        runRule(1L); // #SUM( #INCL( #W1 ) )
+        runRule(1L); // #SUM( #I1, #I2 )
 
         // wait until rule processing finish (or debug activities)
         System.in.read();

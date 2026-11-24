@@ -1,5 +1,7 @@
 package au.com.totemsoft.amax;
 
+import au.com.totemsoft.amax.model.TagGroupEnum;
+
 public interface IExposureKey extends IBase<Long> {
 
     /** SEPARATOR */

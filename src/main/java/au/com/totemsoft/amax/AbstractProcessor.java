@@ -4,7 +4,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 
 import com.lmax.disruptor.EventHandler;
 
-import au.com.totemsoft.amax.dao.impl.AbstractDaoImpl;
 import au.com.totemsoft.amax.model.AbstractEvent;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,7 +18,7 @@ public abstract class AbstractProcessor<T> implements EventHandler<T> {
         this.converter = converter;
     }
 
-    public AbstractProcessor(String name) {
+    protected AbstractProcessor(String name) {
         this.name = name;
     }
 

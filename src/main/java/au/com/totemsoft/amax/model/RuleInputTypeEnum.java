@@ -2,10 +2,10 @@ package au.com.totemsoft.amax.model;
 
 public enum RuleInputTypeEnum {
 
-    RULE_INPUT(0, "IN", "Rule Input"),
-    RULE_OUTPUT(1, "OUT", "Rule Output"),
-    RULE_GENERATED_INPUT(2, "G_IN", "Rule Generated Input"),
-    RULE_GENERATED_OUTPUT(3, "G_OUT", "Rule Generated Output"),
+    RULE_INPUT(1, "IN", "Rule Input"),
+    RULE_OUTPUT(2, "OUT", "Rule Output"),
+    RULE_GENERATED_INPUT(10, "G_IN", "Rule Generated Input"),
+    RULE_GENERATED_OUTPUT(20, "G_OUT", "Rule Generated Output"),
     ;
 
     private final int type;

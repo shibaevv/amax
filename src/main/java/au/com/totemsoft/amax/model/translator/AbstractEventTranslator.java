@@ -4,7 +4,6 @@ import java.nio.CharBuffer;
 
 import com.lmax.disruptor.EventTranslatorOneArg;
 
-import au.com.totemsoft.amax.dao.impl.AbstractDaoImpl;
 import au.com.totemsoft.amax.model.ExposureKeyEvent;
 import lombok.extern.log4j.Log4j2;
 

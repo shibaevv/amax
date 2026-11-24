@@ -3,10 +3,9 @@ package au.com.totemsoft.amax.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import au.com.totemsoft.amax.IBase;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(Include.NON_NULL)
 public abstract class AbstractEvent<T> implements IBase<T> {

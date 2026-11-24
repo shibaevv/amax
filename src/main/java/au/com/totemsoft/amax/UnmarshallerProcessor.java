@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * The unmarshaler turns the event data from the wire into a java object
- * @author vchibaev (Valeri SHIBAEV)
  */
 @Component
 public class UnmarshallerProcessor<T> extends AbstractProcessor<T> {

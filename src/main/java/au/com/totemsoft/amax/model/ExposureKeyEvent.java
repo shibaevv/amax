@@ -33,7 +33,7 @@ import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
 public class ExposureKeyEvent extends AbstractEvent<Long> {
 
     public final static String[] IGNORE = (String[]) ArrayUtils.addAll(AbstractEvent.IGNORE,
-        new String[] {"alias", "inputType", "seriesData", "children"}); // transient properties
+        new String[] {"inputType", "seriesData", "children"}); // transient properties
 
     private static HttpMessageConverter<ExposureKeyEvent> converter;
     public void setConverter(HttpMessageConverter<ExposureKeyEvent> converter) {

@@ -76,7 +76,7 @@ public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements Lif
         for (RuleInputEvent item : inputs) {
             //log(item, i, false);
             ExposureKeyEvent ek = new ExposureKeyEvent(item.getExposureKeyId(), ruleId, context);
-            ek.setInputType(item.getType());
+            ek.setInputType(item.getOutputType());
             exposureKeys[i++] = ExposureKeyEvent.toCharBuffer(ek);
         }
         exposureKeyProducer.onData(exposureKeys);

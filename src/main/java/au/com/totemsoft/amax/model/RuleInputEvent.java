@@ -44,7 +44,7 @@ public class RuleInputEvent extends AbstractEvent<Long> {
 
     @JsonProperty private Long outputExposureKeyId;
 
-    @JsonProperty private int type;
+    @JsonProperty private int outputType;
 
     public RuleInputEvent() {
         super();
@@ -98,32 +98,32 @@ public class RuleInputEvent extends AbstractEvent<Long> {
     }
 
     @Column(name="output_type")
-    public int getType() {
-        return type;
+    public int getOutputType() {
+        return outputType;
     }
-    public void setType(int type) {
-        this.type = type;
+    public void setOutputType(int type) {
+        this.outputType = type;
     }
     @Transient
     public boolean isInput() {
-        return RuleInputTypeEnum.isInput(type) || RuleInputTypeEnum.isInputGenerated(type);
+        return RuleInputTypeEnum.isInput(outputType) || RuleInputTypeEnum.isInputGenerated(outputType);
     }
     @Transient
     public boolean isInputGenerated() {
-        return RuleInputTypeEnum.isInputGenerated(type);
+        return RuleInputTypeEnum.isInputGenerated(outputType);
     }
     @Transient
     public boolean isOutput() {
-        return RuleInputTypeEnum.isOutput(type) || RuleInputTypeEnum.isOutputGenerated(type);
+        return RuleInputTypeEnum.isOutput(outputType) || RuleInputTypeEnum.isOutputGenerated(outputType);
     }
     @Transient
     public boolean isOutputGenerated() {
-        return RuleInputTypeEnum.isOutputGenerated(type);
+        return RuleInputTypeEnum.isOutputGenerated(outputType);
     }
 
     @Override
     public String toString() {
-        return String.format("%1$s: %2$6s", super.toString(), isInput() ? name : RuleInputTypeEnum.valueOf(type).getCode());
+        return String.format("%1$s: %2$6s", super.toString(), isInput() ? name : RuleInputTypeEnum.valueOf(outputType).getCode());
     }
 
     /**
