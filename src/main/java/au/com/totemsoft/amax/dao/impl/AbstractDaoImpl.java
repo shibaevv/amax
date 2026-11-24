@@ -34,7 +34,7 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     @Override
     public T findById(Long id) {
-        log.debug(String.format("[Thread #%1$3d] id=%2$10d", Thread.currentThread().getId(), id));
+        log.debug(String.format("[Thread #%1$3d] %2$s id=%3$d", Thread.currentThread().getId(), persistentClass.getName(), id));
         return em.find(persistentClass, id);
     }
 
