@@ -35,7 +35,9 @@ public class ExposureKeyProcessor extends AbstractProcessor<ExposureKeyEvent> {
         this.seriesDataProducer = seriesDataProducer;
     }
 
+    @Override
     public void onEvent(ExposureKeyEvent event, long sequence, boolean endOfBatch) throws Exception {
+        super.onEvent(event, sequence, endOfBatch);
         final Context context = event.getContext();
         final Long ruleId = event.getRuleId();
         final Long exposureKeyId = event.getId();
@@ -49,21 +51,32 @@ public class ExposureKeyProcessor extends AbstractProcessor<ExposureKeyEvent> {
         // feed event back to rule processor (has to wrap it as RuleEvent)
         if (event.getSeriesData() == null) {
             log(event, sequence, endOfBatch);
-            batchStore.put(ruleId, new LongCharBufferPair(exposureKeyId, RuleEvent.toCharBuffer(new RuleEvent(ruleId, event))));
+            batchStore.put(ruleId, new LongCharBufferPair(exposureKeyId,
+                RuleEvent.toCharBuffer(
+                    RuleEvent.builder().id(ruleId).exposureKey(event).build()
+                    //new RuleEvent(ruleId, event)
+                )));
             if (CollectionUtils.isNotEmpty(event.getChildren())) {
                 for (ExposureKeyEvent item : event.getChildren()) {
-                    batchStore.put(ruleId, new LongCharBufferPair(exposureKeyId, RuleEvent.toCharBuffer(new RuleEvent(ruleId, item))));
+                    batchStore.put(ruleId, new LongCharBufferPair(exposureKeyId,
+                        RuleEvent.toCharBuffer(
+                            RuleEvent.builder().id(ruleId).exposureKey(item).build()
+                            //new RuleEvent(ruleId, item)
+                        )));
                 }
             }
             if (endOfBatch) {
-                List<CharBuffer> data = new ArrayList<CharBuffer>();
+                List<CharBuffer> data = new ArrayList<>();
                 for (LongCharBufferPair item : batchStore.get(ruleId)) {
                     Long key = item.getKey();
                     // constant
                     if (key == null) {
                         continue;
                     }
-                    SeriesDataEvent sd = new SeriesDataEvent(key, context);
+                    SeriesDataEvent sd = SeriesDataEvent.builder()
+                        .exposureKeyId(key)
+                        .context(context)
+                        .build();
                     sd.setRuleId(ruleId);
                     data.add(SeriesDataEvent.toCharBuffer(sd));
                 }

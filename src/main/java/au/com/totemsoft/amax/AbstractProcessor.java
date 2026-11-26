@@ -26,24 +26,25 @@ public abstract class AbstractProcessor<T> implements EventHandler<T> {
         return name;
     }
 
-//    public void onEvent(T event, long sequence, boolean endOfBatch) throws Exception {
-//        debug(event, sequence, endOfBatch);
-//    }
+    @Override
+    public void onEvent(T event, long sequence, boolean endOfBatch) throws Exception {
+        debug(event, sequence, endOfBatch);
+    }
 
     protected void debug(T event, long sequence, boolean endOfBatch) {
-        log.debug("Thread #" + Thread.currentThread().getId() +  " " + name + ": #" + sequence + ", endOfBatch=" + endOfBatch + ", " + event);
+        log.debug("[Thread #{}]:{}, {}, endOfBatch:{}, {}", Thread.currentThread().getId(), sequence, name, endOfBatch ? "endOfBatch ->" : "", event);
     }
 
     protected void info(T event, long sequence, boolean endOfBatch) {
-        log.info("Thread #" + Thread.currentThread().getId() +  " " + name + ": #" + sequence + ", endOfBatch=" + endOfBatch + ", " + event);
+        log.info("[Thread #{}]:{}, {}, endOfBatch:{}, {}", Thread.currentThread().getId(), sequence, name, endOfBatch ? "endOfBatch ->" : "", event);
     }
 
-    protected void log(AbstractEvent event, String msg) {
-        log.info(String.format("[Thread #%1$3d] %2$19s %3$s", Thread.currentThread().getId(), msg, event));
+    protected void log(AbstractEvent<Long> event, String msg) {
+        log.info("[Thread #{}] {}, {}", Thread.currentThread().getId(), msg, event);
     }
 
-    protected void log(AbstractEvent event, long sequence, boolean endOfBatch) {
-        log.info(String.format("[Thread #%1$3d] %2$10s %3$5d %4$s", Thread.currentThread().getId(), endOfBatch ? "endOfBatch ->" : "             ", sequence, event));
+    protected void log(AbstractEvent<Long> event, long sequence, boolean endOfBatch) {
+        log.info("[Thread #{}]:{} {}, {}", Thread.currentThread().getId(), sequence, endOfBatch ? "endOfBatch ->" : "", event);
     }
 
 }

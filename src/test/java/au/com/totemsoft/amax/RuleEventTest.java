@@ -32,7 +32,7 @@ import lombok.extern.log4j.Log4j2;
 // mvn clean test -Dtest=au.com.totemsoft.amax.RuleEventTest
 //
 @SpringJUnitConfig(locations = {"classpath:spring/ruleEvent.test.xml"})
-@Sql(scripts = "classpath:data.sql")
+@Sql(scripts = "classpath:ruleEvent.sql")
 //@ActiveProfiles(profiles = "")
 @Log4j2
 class RuleEventTest {
@@ -110,6 +110,32 @@ class RuleEventTest {
 
         runRule(1L); // #SUM( #I1, #I2 )
 
+        //runRule(6035L); // #MULT( #TMPL( #T1 ), 0.5 )
+        //runRule(6036L); // #MULT( #TMPL( #T1 ), 0.5 )
+        //runRule(6039L); // #AVR( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(6040L); // #AVR( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(1132L); // #WSTOF( 1, #TMPL( #T1 ), #TMPL( #T2 ), #TMPL( #T3 ), #TMPL( #T4 ), #TMPL( #T5 ), #TMPL( #T6 ), #TMPL( #T7 ), #TMPL( #T8 ), #TMPL( #T9 ), #TMPL( #T10 ) )
+        //runRule(1145L); // #WSTOF( 1, #TMPL( #T1 ), #TMPL( #T2 ), #TMPL( #T3 ), #TMPL( #T4 ), #TMPL( #T5 ), #TMPL( #T6 ), #TMPL( #T7 ), #TMPL( #T8 ), #TMPL( #T9 ), #TMPL( #T10 ) )
+        //runRule(7372L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(7371L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(3159L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(3160L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(3173L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(7002L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(7000L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(7001L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+
+        // random rule(s)
+        //runRule(2000L); // #SUM( #INCL( #W1 ) )
+        //runRule(7000L); // #SUM( #TMPL( #T1 ), #TMPL( #T2 ) )
+        //runRule(4457L); // #SUM( #I1 )
+        //runRule(6797L); // #SUM( #I1, #I2, #I3 )
+        //runRule(6035L); // #MULT( #TMPL( #T1 ), 0.5 )
+        //runRule(5689L); // #DIVD( #AVR( #TMPL( #T1 ), #MULT( #TMPL( #T2 ), -1 ) ), 0.01 )
+        //runRule(1132L); // #WSTOF( 1, #TMPL( #T1 ), #TMPL( #T2 ), #TMPL( #T3 ), #TMPL( #T4 ), #TMPL( #T5 ), #TMPL( #T6 ), #TMPL( #T7 ), #TMPL( #T8 ), #TMPL( #T9 ), #TMPL( #T10 ) )
+        //runRule(7354L); // #WSTOF( 5, #INCL( #W1, #EXCL( #W2, #W3 ), #W4 ) )
+        //runRule(5040L); // #ITR( #TMPL( #T1 ), #SUM( #INCL( #W2 ) ) )
+
         // wait until rule processing finish (or debug activities)
         System.in.read();
     }
@@ -117,7 +143,7 @@ class RuleEventTest {
     // feed rules one by one
     private void runRule(long... ruleIds) throws Exception {
         for (long ruleId : ruleIds) {
-            RuleEvent event = new RuleEvent(ruleId, context);
+            RuleEvent event = RuleEvent.builder().id(ruleId).context(context).build();
             ruleProducer.onData(RuleEvent.toCharBuffer(event));
             LockSupport.parkNanos(1);
         }
@@ -128,7 +154,7 @@ class RuleEventTest {
         CharBuffer[] rules = new CharBuffer[ruleIds.length];
         int i = 0;
         for (long ruleId : ruleIds) {
-            RuleEvent event = new RuleEvent(ruleId, context);
+            RuleEvent event = RuleEvent.builder().id(ruleId).context(context).build();
             rules[i++] = RuleEvent.toCharBuffer(event);
             LockSupport.parkNanos(1);
         }

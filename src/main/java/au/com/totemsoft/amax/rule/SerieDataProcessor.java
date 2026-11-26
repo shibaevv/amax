@@ -27,7 +27,9 @@ public class SerieDataProcessor extends AbstractProcessor<SeriesDataEvent> {
         this.exposureKeyProducer = exposureKeyProducer;
     }
 
+    @Override
     public void onEvent(SeriesDataEvent event, long sequence, boolean endOfBatch) throws Exception {
+        super.onEvent(event, sequence, endOfBatch);
         final Context context = event.getContext();
         final Long ruleId = event.getRuleId();
         final Long exposureKeyId = event.getExposureKeyId();
@@ -36,7 +38,11 @@ public class SerieDataProcessor extends AbstractProcessor<SeriesDataEvent> {
             log(event, sequence, endOfBatch);
             //
             // feed event back to exposureKey processor (has to wrap it as ExposureKeyEvent)
-            ExposureKeyEvent wrapper = new ExposureKeyEvent(exposureKeyId, ruleId, context);
+            ExposureKeyEvent wrapper = ExposureKeyEvent.builder()
+                    .id(exposureKeyId)
+                    .ruleId(ruleId)
+                    .context(context)
+                    .build();
             wrapper.setSeriesData(event);
             batchStore.put(ruleId, new LongCharBufferPair(exposureKeyId, ExposureKeyEvent.toCharBuffer(wrapper)));
         }
@@ -53,7 +59,11 @@ public class SerieDataProcessor extends AbstractProcessor<SeriesDataEvent> {
             }
             else {
                 // no data found
-                ExposureKeyEvent wrapper = new ExposureKeyEvent(exposureKeyId, ruleId, context);
+                ExposureKeyEvent wrapper = ExposureKeyEvent.builder()
+                        .id(exposureKeyId)
+                        .ruleId(ruleId)
+                        .context(context)
+                        .build();
                 wrapper.setSeriesData(event);//SeriesDataEvent.NULL);
                 CharBuffer data = ExposureKeyEvent.toCharBuffer(wrapper);
                 exposureKeyProducer.onData(data);

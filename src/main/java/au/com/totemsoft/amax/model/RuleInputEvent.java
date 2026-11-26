@@ -8,11 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 
@@ -23,87 +22,52 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import au.com.totemsoft.amax.tool.TextHttpInputMessage;
 import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@ToString
+@NoArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "amax_rule_input")
 @JsonInclude(Include.NON_NULL)
 public class RuleInputEvent extends AbstractEvent<Long> {
 
-    public static final String[] IGNORE = {"rule", "sequence"};
+    public static final String[] IGNORE = ArrayUtils.addAll(AbstractEvent.IGNORE,
+        "ruleId");
 
     private static HttpMessageConverter<RuleInputEvent> converter;
     public void setConverter(HttpMessageConverter<RuleInputEvent> converter) {
         RuleInputEvent.converter = converter;
     }
 
-    @JsonProperty private String name;
-
-    @JsonIgnore private RuleEvent rule;
-
-    @JsonProperty private Long exposureKeyId;
-
-    @JsonProperty private Long outputExposureKeyId;
-
-    @JsonProperty private int outputType;
-
-    public RuleInputEvent() {
-        super();
-    }
-    public RuleInputEvent(Long id) {
-        super(id);
-    }
-
+    @EqualsAndHashCode.Include
+    @JsonProperty
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public Long getId() {
-        return super.getId();
-    }
+    private Long id;
 
     @Column(name = "name")
-    public String getName() {
-        return name;
-    }
+    @JsonProperty private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "rule_id")
-    public RuleEvent getRule() {
-        return rule;
-    }
-
-    public void setRule(RuleEvent rule) {
-        this.rule = rule;
-    }
+    @Column(name = "rule_id")
+    @JsonIgnore private long ruleId;
 
     @Column(name = "key_id", nullable = true)
-    public Long getExposureKeyId() {
-        return exposureKeyId;
-    }
-
-    public void setExposureKeyId(Long exposureKeyId) {
-        this.exposureKeyId = exposureKeyId;
-    }
+    @JsonProperty private Long exposureKeyId;
 
     @Column(name = "output_key_id", nullable = true)
-    public Long getOutputExposureKeyId() {
-        return outputExposureKeyId;
-    }
-
-    public void setOutputExposureKeyId(Long outputExposureKeyId) {
-        this.outputExposureKeyId = outputExposureKeyId;
-    }
+    @JsonProperty private Long outputExposureKeyId;
 
     @Column(name="output_type")
-    public int getOutputType() {
-        return outputType;
-    }
-    public void setOutputType(int type) {
-        this.outputType = type;
-    }
+    @JsonProperty private int outputType;
+
     @Transient
     public boolean isInput() {
         return RuleInputTypeEnum.isInput(outputType) || RuleInputTypeEnum.isInputGenerated(outputType);
@@ -119,11 +83,6 @@ public class RuleInputEvent extends AbstractEvent<Long> {
     @Transient
     public boolean isOutputGenerated() {
         return RuleInputTypeEnum.isOutputGenerated(outputType);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%1$s: %2$6s", super.toString(), isInput() ? name : RuleInputTypeEnum.valueOf(outputType).getCode());
     }
 
     /**

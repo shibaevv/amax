@@ -220,7 +220,9 @@ public class TemplateContext {
             try {
                 BigDecimal exposure = (BigDecimal) f.invoke(null, new Object[] {tagEks.toArray()});
                 if (outputExposureKeyId != null) {
-                    SeriesDataEvent sd = new SeriesDataEvent(outputExposureKeyId);
+                    SeriesDataEvent sd = SeriesDataEvent.builder()
+                        .exposureKeyId(outputExposureKeyId)
+                        .build();
                     sd.setExposure(exposure);
                     result.add(sd);
                 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -26,56 +28,82 @@ import au.com.totemsoft.amax.IExposureKey;
 import au.com.totemsoft.amax.tool.BeanUtils;
 import au.com.totemsoft.amax.tool.TextHttpInputMessage;
 import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "series_data_key")
 @JsonInclude(Include.NON_NULL)
 public class ExposureKeyEvent extends AbstractEvent<Long> {
 
-    public final static String[] IGNORE = (String[]) ArrayUtils.addAll(AbstractEvent.IGNORE,
-        new String[] {"inputType", "seriesData", "children"}); // transient properties
+    public final static String[] IGNORE = ArrayUtils.addAll(AbstractEvent.IGNORE,
+        "inputType", "seriesData", "children"); // transient properties
 
     private static HttpMessageConverter<ExposureKeyEvent> converter;
     public void setConverter(HttpMessageConverter<ExposureKeyEvent> converter) {
         ExposureKeyEvent.converter = converter;
     }
 
-    @JsonProperty private String type;
-    @JsonProperty private String name;
-    @JsonProperty private String currency;
+    @EqualsAndHashCode.Include
+    @JsonProperty
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "key_id")
+    private Long id;
+
+    @JsonProperty
+    @Column(name = "key_type", nullable = false)
+    private String type;
+
+    @JsonProperty
+    @NaturalId(mutable = true)
+    @Column(name = "key_name")
+    private String name;
+
+    @JsonProperty
+    @Column(name = "currency_code", nullable = false)
+    private String currency;
 
     // from RuleInputEvent
-    @JsonProperty private Integer inputType;
-    @JsonProperty private Long outputExposureKeyId;
+    @JsonProperty
+    @Column(name="input_type")
+    //@Transient
+    private Integer inputType;
+
+    @JsonProperty
+    @Column(name = "output_key_id", nullable = true)
+    private Long outputExposureKeyId;
+
+    @JsonProperty
+    @Transient
+    private long ruleId;
 
     // transient
-    @JsonIgnore   private boolean exclude = false;
-    @JsonProperty private SeriesDataEvent seriesData;
-    @JsonProperty private List<ExposureKeyEvent> children;
-    @JsonProperty private Context context;
+    @JsonIgnore
+    @Transient
+    private boolean exclude;
 
-    public ExposureKeyEvent() {
-        super();
-    }
-    public ExposureKeyEvent(Long id, Long ruleId, Context context) {
-        super(id, ruleId);
-        this.context = context;
-    }
+    @JsonProperty
+    @Transient
+    private SeriesDataEvent seriesData;
 
-    @Id
-    @Column(name = "key_id")
-    @Override
-    public Long getId() {
-        return super.getId();
-    }
+    @JsonProperty
+    @Transient
+    private List<ExposureKeyEvent> children;
 
-    @Column(name = "key_type", nullable = false)
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
+    @JsonProperty
+    @Transient
+    private Context context;
 
     @Transient
     public boolean isWildcard() {
@@ -84,15 +112,6 @@ public class ExposureKeyEvent extends AbstractEvent<Long> {
     @Transient
     public boolean isTemplate() {
         return ExposureKeyTypeEnum.isTemplate(type);
-    }
-
-    @NaturalId(mutable = true)
-    @Column(name = "key_name")
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String entityName() {
@@ -105,23 +124,6 @@ public class ExposureKeyEvent extends AbstractEvent<Long> {
 
     public boolean containTag(int idx, String tag) {
         return tag.equals(tagNames()[idx]);
-    }
-
-    @Column(name = "currency_code", nullable = false)
-    public String getCurrency() {
-        return currency;
-    }
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    @Column(name="input_type")
-    //@Transient
-    public Integer getInputType() {
-        return inputType;
-    }
-    public void setInputType(Integer inputType) {
-        this.inputType = inputType;
     }
 
     @Transient
@@ -139,52 +141,6 @@ public class ExposureKeyEvent extends AbstractEvent<Long> {
     @Transient
     public boolean isOutputGenerated() {
         return RuleInputTypeEnum.isOutputGenerated(inputType);
-    }
-
-    @Column(name = "output_key_id", nullable = true)
-    public Long getOutputExposureKeyId() {
-        return outputExposureKeyId;
-    }
-
-    public void setOutputExposureKeyId(Long outputExposureKeyId) {
-        this.outputExposureKeyId = outputExposureKeyId;
-    }
-
-    @Transient
-    public boolean isExclude() {
-        return exclude;
-    }
-    public void setExclude(boolean exclude) {
-        this.exclude = exclude;
-    }
-
-    @Transient
-    public SeriesDataEvent getSeriesData() {
-        return seriesData;
-    }
-    public void setSeriesData(SeriesDataEvent seriesData) {
-        this.seriesData = seriesData;
-    }
-
-    @Transient
-    public List<ExposureKeyEvent> getChildren() {
-        return children;
-    }
-    public void setChildren(List<ExposureKeyEvent> children) {
-        this.children = children;
-    }
-
-    @Transient
-    public Context getContext() {
-        return context;
-    }
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%1$s: %2$6s=%3$s [%4$s] %5$3s", super.toString(), RuleInputTypeEnum.valueOf(inputType).getCode(), name, type, currency);
     }
 
     /**

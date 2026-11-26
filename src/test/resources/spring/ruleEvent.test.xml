@@ -18,8 +18,9 @@
 
     <import resource="classpath:spring/spring-inc-amax.xml" />
 
-    <jdbc:initialize-database data-source="dataSource">
-        <jdbc:script location="classpath:schema.sql"/>
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+        <jdbc:script location="classpath:schema.sql" />
+        <jdbc:script location="classpath:data.sql" />
     </jdbc:initialize-database>
 
 </beans>

@@ -12,8 +12,9 @@ public class UnmarshallerProcessor<T> extends AbstractProcessor<T> {
         super("Unmarshal message");
     }
 
+    @Override
     public void onEvent(T event, long sequence, boolean endOfBatch) throws Exception {
-        debug(event, sequence, endOfBatch);
+        super.onEvent(event, sequence, endOfBatch);
         // TODO: implement processing logic
         
     }

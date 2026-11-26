@@ -15,6 +15,10 @@
     <!-- JPA 2.0 way to specify whether the entities and entity-related state of a persistence unit will be cached -->
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+    <properties>
+        <property name="hibernate.default_catalog" value="" />
+        <property name="hibernate.default_schema" value="public" />
+    </properties>
   </persistence-unit>
 
 </persistence>

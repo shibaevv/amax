@@ -40,7 +40,7 @@ public class EvaluateService {
 
     @SuppressWarnings("rawtypes")
     private void log(AbstractEvent event) {
-        if (log.isInfoEnabled()) log.info(String.format("[Thread #%1$3d] %2$s", Thread.currentThread().getId(), event));
+        log.info(String.format("[Thread #%1$3d] %2$s", Thread.currentThread().getId(), event));
     }
 
     private EvaluationContext getEvaluationContext(String expression) throws SecurityException {
@@ -68,7 +68,7 @@ public class EvaluateService {
         final long ruleId = event.getId();
         final String expression = event.getExpression();
         final EvaluationContext context = getEvaluationContext(expression);
-        if (log.isInfoEnabled()) log.info("evaluate rule #" + ruleId + " started '" + expression + "' ..\n");
+        log.info("evaluate rule #" + ruleId + " started '" + expression + "' ..\n");
         //
         Collection<RuleInputEvent> inputs = event.inputs(false);
         Collection<RuleInputEvent> outputs = event.outputs(false);
@@ -96,7 +96,10 @@ public class EvaluateService {
             SeriesDataEvent outputSd = outputEk.getSeriesData();
             if (outputSd == null) {
                 log.debug("No data found for " + outputEk + ", creating new one ..");
-                outputSd = new SeriesDataEvent(outputExposureKeyId, outputEk.getContext());
+                outputSd = SeriesDataEvent.builder()
+                    .exposureKeyId(outputExposureKeyId)
+                    .context(outputEk.getContext())
+                    .build();
                 outputEk.setSeriesData(outputSd);
             }
             Map<String, Object> parameters = new LinkedHashMap<>();
@@ -170,7 +173,7 @@ public class EvaluateService {
             //
             System.out.println();
         }
-        if (log.isInfoEnabled()) log.info(".. evaluate rule #" + ruleId + " completed.");
+        log.info(".. evaluate rule #" + ruleId + " completed.");
     }
 
     private ExposureKeyEvent findMatch(List<ExposureKeyEvent> eks, RuleInputEvent input) {

@@ -9,8 +9,9 @@ public class ReplicatorProcessor<T> extends AbstractProcessor<T> {
         super("Replicate message");
     }
 
+    @Override
     public void onEvent(T event, long sequence, boolean endOfBatch) throws Exception {
-        debug(event, sequence, endOfBatch);
+        super.onEvent(event, sequence, endOfBatch);
         // TODO: implement processing logic
         
     }

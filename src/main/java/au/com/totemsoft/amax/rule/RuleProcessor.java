@@ -40,6 +40,7 @@ public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements Lif
     @SuppressWarnings("unchecked")
     @Override
     public void onEvent(RuleEvent event, long sequence, boolean endOfBatch) throws Exception {
+        super.onEvent(event, sequence, endOfBatch);
         final long ruleId = event.getId();
         // check if rule dependencies are complete
         ExposureKeyEvent ekEvent = event.getExposureKey();
@@ -75,7 +76,11 @@ public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements Lif
         int i = 0;
         for (RuleInputEvent item : inputs) {
             //log(item, i, false);
-            ExposureKeyEvent ek = new ExposureKeyEvent(item.getExposureKeyId(), ruleId, context);
+            ExposureKeyEvent ek = ExposureKeyEvent.builder()
+                .id(item.getExposureKeyId())
+                .ruleId(ruleId)
+                .context(context)
+                .build();
             ek.setInputType(item.getOutputType());
             exposureKeys[i++] = ExposureKeyEvent.toCharBuffer(ek);
         }

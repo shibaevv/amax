@@ -9,8 +9,9 @@ public class JournalProcessor<T> extends AbstractProcessor<T> {
         super("Journal message");
     }
 
+    @Override
     public void onEvent(T event, long sequence, boolean endOfBatch) throws Exception {
-        debug(event, sequence, endOfBatch);
+        super.onEvent(event, sequence, endOfBatch);
         // TODO: implement processing logic
         
     }
