@@ -2,8 +2,6 @@ package au.com.totemsoft.amax.model;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.CharBuffer;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 import org.springframework.http.MediaType;
@@ -15,36 +13,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import au.com.totemsoft.amax.tool.TextHttpInputMessage;
 import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Data
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonInclude(Include.NON_NULL)
 public class Context {
 
     private static HttpMessageConverter<Context> converter;
-    public void setConverter(HttpMessageConverter<Context> converter) {
+    public static void setConverter(HttpMessageConverter<Context> converter) {
         Context.converter = converter;
     }
 
     @JsonProperty
     private Date date;
-
-    Context() {
-        super();
-    }
-    public Context(LocalDate date) {
-        this.date = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
-
-    public Date getDate() {
-        return date;
-    }
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%1$s: date=%2$tY-%2$tm-%2$td", getClass().getSimpleName(), date);
-    }
 
     /**
      * Helper method

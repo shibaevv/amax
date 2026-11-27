@@ -16,7 +16,7 @@ public class RuleDisruptor extends AbstractDisruptor<RuleEvent> {
     /** In order to allow the Disruptor to preallocate event */
     public static final EventFactory<RuleEvent> FACTORY = new EventFactory<RuleEvent>() {
         public RuleEvent newInstance() {
-            return new RuleEvent();
+            return RuleEvent.builder().build();
         }
     };
 

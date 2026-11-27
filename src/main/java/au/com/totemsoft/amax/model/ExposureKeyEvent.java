@@ -28,7 +28,6 @@ import au.com.totemsoft.amax.IExposureKey;
 import au.com.totemsoft.amax.tool.BeanUtils;
 import au.com.totemsoft.amax.tool.TextHttpInputMessage;
 import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -39,18 +38,17 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
 @Entity
 @Table(name = "series_data_key")
 @JsonInclude(Include.NON_NULL)
 public class ExposureKeyEvent extends AbstractEvent<Long> {
 
-    public final static String[] IGNORE = ArrayUtils.addAll(AbstractEvent.IGNORE,
+    public static final String[] IGNORE = ArrayUtils.addAll(AbstractEvent.IGNORE,
         "inputType", "seriesData", "children"); // transient properties
 
     private static HttpMessageConverter<ExposureKeyEvent> converter;
-    public void setConverter(HttpMessageConverter<ExposureKeyEvent> converter) {
+    public static void setConverter(HttpMessageConverter<ExposureKeyEvent> converter) {
         ExposureKeyEvent.converter = converter;
     }
 

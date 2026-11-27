@@ -40,11 +40,21 @@
         c:conversionService-ref="conversionService" />
 
     <!-- ========================= TRANSLATOR DEFINITIONS ==================== -->
-    <bean id="context"               class="au.com.totemsoft.amax.model.Context"          p:converter-ref="converter" />
-    <bean id="exposureKeyEvent"      class="au.com.totemsoft.amax.model.ExposureKeyEvent" p:converter-ref="converter" />
-    <bean id="ruleEvent"             class="au.com.totemsoft.amax.model.RuleEvent"        p:converter-ref="converter" />
-    <bean id="ruleInputEvent"        class="au.com.totemsoft.amax.model.RuleInputEvent"   p:converter-ref="converter" />
-    <bean id="seriesDataEvent"       class="au.com.totemsoft.amax.model.SeriesDataEvent"  p:converter-ref="converter" />
+    <bean class="org.springframework.beans.factory.config.MethodInvokingBean"
+        p:staticMethod="au.com.totemsoft.amax.model.Context.setConverter"
+        p:arguments-ref="converter" />
+    <bean  class="org.springframework.beans.factory.config.MethodInvokingBean"
+        p:staticMethod="au.com.totemsoft.amax.model.ExposureKeyEvent.setConverter"
+        p:arguments-ref="converter" />
+    <bean  class="org.springframework.beans.factory.config.MethodInvokingBean"
+        p:staticMethod="au.com.totemsoft.amax.model.RuleEvent.setConverter"
+        p:arguments-ref="converter" />
+    <bean  class="org.springframework.beans.factory.config.MethodInvokingBean"
+        p:staticMethod="au.com.totemsoft.amax.model.RuleInputEvent.setConverter"
+        p:arguments-ref="converter" />
+    <bean  class="org.springframework.beans.factory.config.MethodInvokingBean"
+        p:staticMethod="au.com.totemsoft.amax.model.SeriesDataEvent.setConverter"
+        p:arguments-ref="converter" />
 
     <!-- ========================= OTHER DEFINITIONS ==================== -->
     <bean id="beanResolver"          class="org.springframework.context.expression.BeanFactoryResolver" />

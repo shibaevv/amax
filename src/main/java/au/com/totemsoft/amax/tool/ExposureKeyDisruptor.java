@@ -12,7 +12,7 @@ public class ExposureKeyDisruptor extends AbstractDisruptor<ExposureKeyEvent> {
     /** In order to allow the Disruptor to preallocate event */
     public static final EventFactory<ExposureKeyEvent> FACTORY = new EventFactory<ExposureKeyEvent>() {
         public ExposureKeyEvent newInstance() {
-            return new ExposureKeyEvent();
+            return ExposureKeyEvent.builder().build();
         }
     };
 

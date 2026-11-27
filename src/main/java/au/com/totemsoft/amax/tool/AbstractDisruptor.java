@@ -10,7 +10,7 @@ import com.lmax.disruptor.dsl.ProducerType;
 
 import au.com.totemsoft.amax.model.AbstractEvent;
 
-public abstract class AbstractDisruptor<T extends AbstractEvent> extends Disruptor<T> {
+public abstract class AbstractDisruptor<T extends AbstractEvent<?>> extends Disruptor<T> {
 
     // Executor that will be used to construct new threads for consumers
     private static final Executor executor = Executors.newCachedThreadPool();

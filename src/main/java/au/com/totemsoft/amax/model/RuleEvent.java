@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import au.com.totemsoft.amax.tool.TextHttpInputMessage;
 import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -39,7 +38,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
 @Entity
 @Table(name = "amax_rule")
@@ -50,7 +48,7 @@ public class RuleEvent extends AbstractEvent<Long> {
         "exposureKey");
 
     private static HttpMessageConverter<RuleEvent> converter;
-    public void setConverter(HttpMessageConverter<RuleEvent> converter) {
+    public static void setConverter(HttpMessageConverter<RuleEvent> converter) {
         RuleEvent.converter = converter;
     }
 

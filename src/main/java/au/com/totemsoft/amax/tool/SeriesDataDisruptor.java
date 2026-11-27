@@ -12,7 +12,7 @@ public class SeriesDataDisruptor extends AbstractDisruptor<SeriesDataEvent> {
     /** In order to allow the Disruptor to preallocate event */
     public static final EventFactory<SeriesDataEvent> FACTORY = new EventFactory<SeriesDataEvent>() {
         public SeriesDataEvent newInstance() {
-            return new SeriesDataEvent();
+            return SeriesDataEvent.builder().build();
         }
     };
 

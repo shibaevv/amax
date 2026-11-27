@@ -2,6 +2,8 @@ package au.com.totemsoft.amax;
 
 import java.nio.CharBuffer;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.concurrent.locks.LockSupport;
 
 import javax.sql.DataSource;
@@ -64,8 +66,9 @@ class RuleEventTest {
 
     private Context context;
 
-    private LocalDate latestDate() {
-        return LocalDate.now().minusDays(1);
+    private Date latestDate() {
+        final LocalDate date = LocalDate.now().minusDays(1);
+        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     @SuppressWarnings("unchecked")
@@ -106,7 +109,9 @@ class RuleEventTest {
 
     @Test
     public final void test() throws Exception {
-        context = new Context(latestDate());
+        context = Context.builder()
+            .date(latestDate())
+            .build();
 
         runRule(1L); // #SUM( #I1, #I2 )
 

@@ -7,14 +7,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import au.com.totemsoft.amax.IBase;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
 @JsonInclude(Include.NON_NULL)
 public abstract class AbstractEvent<T> implements IBase<T> {

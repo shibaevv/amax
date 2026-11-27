@@ -42,7 +42,7 @@ public class RuleInputEvent extends AbstractEvent<Long> {
         "ruleId");
 
     private static HttpMessageConverter<RuleInputEvent> converter;
-    public void setConverter(HttpMessageConverter<RuleInputEvent> converter) {
+    public static void setConverter(HttpMessageConverter<RuleInputEvent> converter) {
         RuleInputEvent.converter = converter;
     }
 

@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import au.com.totemsoft.amax.tool.BeanUtils;
 import au.com.totemsoft.amax.tool.TextHttpInputMessage;
 import au.com.totemsoft.amax.tool.TextHttpOutputMessage;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -36,20 +35,17 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
 @Entity
 @Table(name = "series_data")
 @JsonInclude(Include.NON_NULL)
 public class SeriesDataEvent extends AbstractEvent<Long> {
 
-    public static final SeriesDataEvent NULL = new SeriesDataEvent();
-
     public static final String[] IGNORE = ArrayUtils.addAll(AbstractEvent.IGNORE,
         "date");  // transient properties (from context)
 
     private static HttpMessageConverter<SeriesDataEvent> converter;
-    public void setConverter(HttpMessageConverter<SeriesDataEvent> converter) {
+    public static void setConverter(HttpMessageConverter<SeriesDataEvent> converter) {
         SeriesDataEvent.converter = converter;
     }
 
@@ -84,10 +80,14 @@ public class SeriesDataEvent extends AbstractEvent<Long> {
     private Context context;
 
     public Date getDate() {
-        return context == null ? null : context.getDate();
+        return date != null ? date : contextDate();
     }
     public void setDate(Date date) {
-        //getContext().setDate(date);
+        // read-only
+    }
+
+    private Date contextDate() {
+        return context == null ? null : context.getDate();
     }
 
     /**
