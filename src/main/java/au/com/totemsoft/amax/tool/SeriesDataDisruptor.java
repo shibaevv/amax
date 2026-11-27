@@ -10,14 +10,10 @@ import au.com.totemsoft.amax.model.SeriesDataEvent;
 public class SeriesDataDisruptor extends AbstractDisruptor<SeriesDataEvent> {
 
     /** In order to allow the Disruptor to preallocate event */
-    public static final EventFactory<SeriesDataEvent> FACTORY = new EventFactory<SeriesDataEvent>() {
-        public SeriesDataEvent newInstance() {
-            return SeriesDataEvent.builder().build();
-        }
-    };
+    public static final EventFactory<SeriesDataEvent> EVENT_FACTORY = SeriesDataEvent::new;
 
     public SeriesDataDisruptor() {
-        super(FACTORY);
+        super(EVENT_FACTORY);
     }
 
 }

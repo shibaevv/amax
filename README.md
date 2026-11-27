@@ -10,3 +10,5 @@
     mvn dependency:sources
     mvn dependency:tree -DoutputFile=dependency.txt
     
+#references
+[LMAX Disruptor](https://lmax-exchange.github.io/disruptor/)

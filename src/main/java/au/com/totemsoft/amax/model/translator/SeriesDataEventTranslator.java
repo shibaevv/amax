@@ -30,7 +30,7 @@ public class SeriesDataEventTranslator extends AbstractEventTranslator<SeriesDat
                 source = seriesDataEventDao.findByNaturalId(exposureKeyId, context);
                 BeanUtils.copyProperties(source, event, SeriesDataEvent.IGNORE);
             }
-            event.setSequence(sequence);
+            event.set(sequence);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }

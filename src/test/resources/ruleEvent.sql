@@ -21,8 +21,8 @@ SELECT * FROM (VALUES
 INSERT INTO amax_rule_input
   (name, rule_id, key_id, output_key_id, output_type)
 SELECT * FROM (VALUES
-  ('I1', 1, 1, 3, 2),
-  ('I2', 1, 2, 3, 2)
+  ('#I1', 1, 1, 3, 2),
+  ('#I2', 1, 2, 3, 2)
 ) WHERE NOT EXISTS (SELECT 1 FROM amax_rule_input);
 
 INSERT INTO series_data

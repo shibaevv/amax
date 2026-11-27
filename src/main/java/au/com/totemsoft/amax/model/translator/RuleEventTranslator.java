@@ -30,7 +30,7 @@ public class RuleEventTranslator extends AbstractEventTranslator<RuleEvent> {
                 source = ruleEventDao.findById(ruleId);
                 BeanUtils.copyProperties(source, event, RuleEvent.IGNORE);
             }
-            event.setSequence(sequence);
+            event.set(sequence);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }

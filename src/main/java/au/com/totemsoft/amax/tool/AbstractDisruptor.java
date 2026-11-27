@@ -16,14 +16,14 @@ public abstract class AbstractDisruptor<T extends AbstractEvent<?>> extends Disr
     private static final Executor executor = Executors.newCachedThreadPool();
 
     // Specify the size of the ring buffer, must be power of 2.
-    private static final int bufferSize = 64 * 1024;
+    private static final int BUFFER_SIZE = 64 * 1024;
 
-    public AbstractDisruptor(EventFactory<T> eventFactory, ProducerType producerType, WaitStrategy waitStrategy) {
-        super(eventFactory, bufferSize, executor, producerType, waitStrategy);
+    protected AbstractDisruptor(EventFactory<T> eventFactory, ProducerType producerType, WaitStrategy waitStrategy) {
+        super(eventFactory, BUFFER_SIZE, executor, producerType, waitStrategy);
     }
 
-    public AbstractDisruptor(EventFactory<T> eventFactory) {
-        super(eventFactory, bufferSize, executor/*, ProducerType.MULTI, new BlockingWaitStrategy()*/);
+    protected AbstractDisruptor(EventFactory<T> eventFactory) {
+        super(eventFactory, BUFFER_SIZE, executor/*, ProducerType.MULTI, new BlockingWaitStrategy()*/);
     }
 
 }

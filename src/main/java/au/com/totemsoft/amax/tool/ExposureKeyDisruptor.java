@@ -10,14 +10,10 @@ import au.com.totemsoft.amax.model.ExposureKeyEvent;
 public class ExposureKeyDisruptor extends AbstractDisruptor<ExposureKeyEvent> {
 
     /** In order to allow the Disruptor to preallocate event */
-    public static final EventFactory<ExposureKeyEvent> FACTORY = new EventFactory<ExposureKeyEvent>() {
-        public ExposureKeyEvent newInstance() {
-            return ExposureKeyEvent.builder().build();
-        }
-    };
+    public static final EventFactory<ExposureKeyEvent> EVENT_FACTORY = ExposureKeyEvent::new;
 
     public ExposureKeyDisruptor() {
-        super(FACTORY);
+        super(EVENT_FACTORY);
     }
 
 }

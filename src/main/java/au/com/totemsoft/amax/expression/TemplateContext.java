@@ -91,7 +91,7 @@ public class TemplateContext {
      * @return
      */
     public static ExposureKeyEvent[] incl(final Object... arguments) {
-        List<ExposureKeyEvent> result = new ArrayList<ExposureKeyEvent>();
+        List<ExposureKeyEvent> result = new ArrayList<>();
         incl(result, arguments);
         return result.toArray(new ExposureKeyEvent[0]);
     }
@@ -144,7 +144,7 @@ public class TemplateContext {
      * @return
      */
     public static ExposureKeyEvent[] excl(final Object... arguments) {
-        List<ExposureKeyEvent> result = new ArrayList<ExposureKeyEvent>();
+        List<ExposureKeyEvent> result = new ArrayList<>();
         excl(result, arguments);
         return result.toArray(new ExposureKeyEvent[0]);
     }

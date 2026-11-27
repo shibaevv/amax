@@ -56,12 +56,12 @@ public class ExposureKeyEventTranslator extends AbstractEventTranslator<Exposure
                         }
                         SeriesDataEvent sd = seriesDataEventDao.findByNaturalId(ek.getId(), context);
                         ek.setSeriesData(sd);
-                        ek.setSequence(sequence);
+                        ek.set(sequence);
                     }
                     event.setChildren(eks);
                 }
             }
-            event.setSequence(sequence);
+            event.set(sequence);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }

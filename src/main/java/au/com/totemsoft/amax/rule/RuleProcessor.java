@@ -4,11 +4,8 @@ import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.cache.Cache.ValueWrapper;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import au.com.totemsoft.amax.AbstractProcessor;
@@ -21,20 +18,22 @@ import au.com.totemsoft.amax.model.RuleInputEvent;
 import au.com.totemsoft.amax.tool.ExposureKeyEventProducer;
 
 @Component
-//create a brand-new instance every time the component is injected
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements LifecycleAware*/ {
 
     private final ExposureKeyEventProducer exposureKeyProducer;
 
-    @Autowired private CacheDao cacheDao;
+    private final EvaluateService evaluateService;
 
-    @Autowired private EvaluateService evaluateService;
+    private final CacheDao cacheDao;
 
     public RuleProcessor(
-            @Qualifier("exposureKeyProducer") ExposureKeyEventProducer exposureKeyProducer) {
+            @Qualifier("exposureKeyProducer") ExposureKeyEventProducer exposureKeyProducer,
+            EvaluateService evaluateService,
+            CacheDao cacheDao) {
         super("Rule Processor");
         this.exposureKeyProducer = exposureKeyProducer;
+        this.evaluateService = evaluateService;
+        this.cacheDao = cacheDao;
     }
 
     @SuppressWarnings("unchecked")
