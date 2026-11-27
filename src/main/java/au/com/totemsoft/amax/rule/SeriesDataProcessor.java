@@ -3,26 +3,22 @@ package au.com.totemsoft.amax.rule;
 import java.nio.CharBuffer;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import au.com.totemsoft.amax.AbstractProcessor;
 import au.com.totemsoft.amax.model.BatchStore;
 import au.com.totemsoft.amax.model.Context;
 import au.com.totemsoft.amax.model.ExposureKeyEvent;
 import au.com.totemsoft.amax.model.LongCharBufferPair;
 import au.com.totemsoft.amax.model.SeriesDataEvent;
-import au.com.totemsoft.amax.tool.ExposureKeyEventProducer;
+import au.com.totemsoft.amax.tool.ExposureKeyProducer;
 
-@Component
-public class SerieDataProcessor extends AbstractProcessor<SeriesDataEvent> {
+public class SeriesDataProcessor extends AbstractProcessor<SeriesDataEvent> {
 
-    private final ExposureKeyEventProducer exposureKeyProducer;
+    private final ExposureKeyProducer exposureKeyProducer;
 
     private BatchStore batchStore = new BatchStore();
 
-    public SerieDataProcessor(
-            @Qualifier("exposureKeyProducer") ExposureKeyEventProducer exposureKeyProducer) {
+    public SeriesDataProcessor(
+            ExposureKeyProducer exposureKeyProducer) {
         super("Serie Data Processor");
         this.exposureKeyProducer = exposureKeyProducer;
     }

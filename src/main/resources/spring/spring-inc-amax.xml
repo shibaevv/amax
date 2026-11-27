@@ -56,6 +56,37 @@
         p:staticMethod="au.com.totemsoft.amax.model.SeriesDataEvent.setConverter"
         p:arguments-ref="converter" />
 
+    <!-- ========================= PROCESSOR DEFINITIONS ==================== -->
+    <bean id="journalProcessor"      class="au.com.totemsoft.amax.JournalProcessor" />
+
+    <bean id="ruleDisruptor"         class="au.com.totemsoft.amax.tool.RuleDisruptor" />
+    <bean id="ruleProducer"          class="au.com.totemsoft.amax.tool.RuleProducer"
+        c:disruptor-ref="ruleDisruptor" c:translator-ref="ruleTranslator" />
+    <bean id="ruleProcessor"         class="au.com.totemsoft.amax.rule.RuleProcessor"
+        c:producer-ref="ruleProducer" />
+
+    <bean id="outputRuleDisruptor"   class="au.com.totemsoft.amax.tool.RuleDisruptor" />
+    <bean id="outputRuleProducer"    class="au.com.totemsoft.amax.tool.RuleProducer"
+        c:disruptor-ref="outputRuleDisruptor"
+        c:translator-ref="ruleTranslator" />
+    <bean id="outputRuleProcessor"   class="au.com.totemsoft.amax.rule.RulePostProcessor"
+        c:producer-ref="outputRuleProducer" />
+
+    <bean id="exposureKeyDisruptor"  class="au.com.totemsoft.amax.tool.ExposureKeyDisruptor" />
+    <bean id="exposureKeyProducer"   class="au.com.totemsoft.amax.tool.ExposureKeyProducer"
+        c:disruptor-ref="exposureKeyDisruptor"
+        c:translator-ref="exposureKeyTranslator" />
+    <bean id="exposureKeyProcessor"  class="au.com.totemsoft.amax.rule.ExposureKeyProcessor"
+        c:ruleProducer-ref="ruleProducer"
+        c:seriesDataProducer-ref="seriesDataProducer" />
+
+    <bean id="seriesDataDisruptor"    class="au.com.totemsoft.amax.tool.SeriesDataDisruptor" />
+    <bean id="seriesDataProducer"     class="au.com.totemsoft.amax.tool.SeriesDataProducer"
+        c:disruptor-ref="seriesDataDisruptor"
+        c:translator-ref="seriesDataTranslator" />
+    <bean id="seriesDataProcessor"    class="au.com.totemsoft.amax.rule.SeriesDataProcessor"
+        c:exposureKeyProducer-ref="exposureKeyProducer" />
+
     <!-- ========================= OTHER DEFINITIONS ==================== -->
     <bean id="beanResolver"          class="org.springframework.context.expression.BeanFactoryResolver" />
 

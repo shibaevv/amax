@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class MarshallerProcessor<T> extends AbstractProcessor<T> {
 
     public MarshallerProcessor() {
-        super("Unmarshal message");
+        super("Marshal message");
     }
 
     @Override

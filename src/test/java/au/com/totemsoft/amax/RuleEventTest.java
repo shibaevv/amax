@@ -23,10 +23,10 @@ import au.com.totemsoft.amax.model.SeriesDataEvent;
 import au.com.totemsoft.amax.rule.ExposureKeyProcessor;
 import au.com.totemsoft.amax.rule.RulePostProcessor;
 import au.com.totemsoft.amax.rule.RuleProcessor;
-import au.com.totemsoft.amax.rule.SerieDataProcessor;
+import au.com.totemsoft.amax.rule.SeriesDataProcessor;
 import au.com.totemsoft.amax.tool.ExposureKeyDisruptor;
 import au.com.totemsoft.amax.tool.RuleDisruptor;
-import au.com.totemsoft.amax.tool.RuleEventProducer;
+import au.com.totemsoft.amax.tool.RuleProducer;
 import au.com.totemsoft.amax.tool.SeriesDataDisruptor;
 import lombok.extern.log4j.Log4j2;
 
@@ -50,7 +50,7 @@ class RuleEventTest {
     @Autowired private JournalProcessor<ExposureKeyEvent> journalExposureKeyProcessor;
     @Autowired private JournalProcessor<SeriesDataEvent> journalSerieDataProcessor;
 
-    @Autowired private RuleEventProducer ruleProducer;
+    @Autowired private RuleProducer ruleProducer;
 
     @Autowired private RuleDisruptor ruleDisruptor;
     @Autowired private RuleProcessor ruleProcessor;
@@ -59,7 +59,7 @@ class RuleEventTest {
     @Autowired private ExposureKeyProcessor exposureKeyProcessor;
 
     @Autowired private SeriesDataDisruptor seriesDataDisruptor;
-    @Autowired private SerieDataProcessor seriesDataProcessor;
+    @Autowired private SeriesDataProcessor seriesDataProcessor;
 
     @Autowired private RuleDisruptor outputRuleDisruptor;
     @Autowired private RulePostProcessor outputRuleProcessor;

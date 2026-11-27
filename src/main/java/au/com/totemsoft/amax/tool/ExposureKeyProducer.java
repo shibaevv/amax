@@ -2,27 +2,23 @@ package au.com.totemsoft.amax.tool;
 
 import java.nio.CharBuffer;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import com.lmax.disruptor.RingBuffer;
 
-import au.com.totemsoft.amax.model.SeriesDataEvent;
-import au.com.totemsoft.amax.model.translator.SeriesDataEventTranslator;
+import au.com.totemsoft.amax.model.ExposureKeyEvent;
+import au.com.totemsoft.amax.model.translator.ExposureKeyEventTranslator;
 
 /**
  * publishing messages is via the Event Publisher/Event Translator portion of the API
  */
-@Component("seriesDataProducer")
-public class SeriesDataEventProducer {
+public class ExposureKeyProducer {
 
-    private final RingBuffer<SeriesDataEvent> ringBuffer;
+    private final RingBuffer<ExposureKeyEvent> ringBuffer;
 
-    private final SeriesDataEventTranslator translator;
+    private final ExposureKeyEventTranslator translator;
 
-    public SeriesDataEventProducer(
-            @Qualifier("seriesDataDisruptor") SeriesDataDisruptor disruptor,
-            @Qualifier("seriesDataTranslator") SeriesDataEventTranslator translator) {
+    public ExposureKeyProducer(
+            ExposureKeyDisruptor disruptor,
+            ExposureKeyEventTranslator translator) {
         this.ringBuffer = disruptor.getRingBuffer();
         this.translator = translator;
     }

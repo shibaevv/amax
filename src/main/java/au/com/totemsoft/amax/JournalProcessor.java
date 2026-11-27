@@ -1,8 +1,5 @@
 package au.com.totemsoft.amax;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class JournalProcessor<T> extends AbstractProcessor<T> {
 
     public JournalProcessor() {

@@ -1,19 +1,15 @@
 package au.com.totemsoft.amax.rule;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import au.com.totemsoft.amax.AbstractProcessor;
 import au.com.totemsoft.amax.model.RuleEvent;
-import au.com.totemsoft.amax.tool.RuleEventProducer;
+import au.com.totemsoft.amax.tool.RuleProducer;
 
-@Component("outputRuleProcessor")
 public class RulePostProcessor extends AbstractProcessor<RuleEvent> {
 
-    private final RuleEventProducer producer;
+    private final RuleProducer producer;
 
     public RulePostProcessor(
-            @Qualifier("ruleProducer") RuleEventProducer producer) {
+            RuleProducer producer) {
         super("Publisher Processor");
         this.producer = producer;
     }

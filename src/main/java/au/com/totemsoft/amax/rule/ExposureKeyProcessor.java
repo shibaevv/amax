@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 import au.com.totemsoft.amax.AbstractProcessor;
 import au.com.totemsoft.amax.model.BatchStore;
@@ -15,21 +13,20 @@ import au.com.totemsoft.amax.model.ExposureKeyEvent;
 import au.com.totemsoft.amax.model.LongCharBufferPair;
 import au.com.totemsoft.amax.model.RuleEvent;
 import au.com.totemsoft.amax.model.SeriesDataEvent;
-import au.com.totemsoft.amax.tool.RuleEventProducer;
-import au.com.totemsoft.amax.tool.SeriesDataEventProducer;
+import au.com.totemsoft.amax.tool.RuleProducer;
+import au.com.totemsoft.amax.tool.SeriesDataProducer;
 
-@Component
 public class ExposureKeyProcessor extends AbstractProcessor<ExposureKeyEvent> {
 
-    private final RuleEventProducer ruleProducer;
+    private final RuleProducer ruleProducer;
 
-    private final SeriesDataEventProducer seriesDataProducer;
+    private final SeriesDataProducer seriesDataProducer;
 
     private BatchStore batchStore = new BatchStore();
 
     public ExposureKeyProcessor(
-            @Qualifier("ruleProducer") RuleEventProducer ruleProducer,
-            @Qualifier("seriesDataProducer") SeriesDataEventProducer seriesDataProducer) {
+            RuleProducer ruleProducer,
+            SeriesDataProducer seriesDataProducer) {
         super("Exposure Key Processor");
         this.ruleProducer = ruleProducer;
         this.seriesDataProducer = seriesDataProducer;

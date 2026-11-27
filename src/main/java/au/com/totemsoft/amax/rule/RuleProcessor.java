@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache.ValueWrapper;
-import org.springframework.stereotype.Component;
 
 import au.com.totemsoft.amax.AbstractProcessor;
 import au.com.totemsoft.amax.dao.CacheDao;
@@ -15,19 +14,18 @@ import au.com.totemsoft.amax.model.Context;
 import au.com.totemsoft.amax.model.ExposureKeyEvent;
 import au.com.totemsoft.amax.model.RuleEvent;
 import au.com.totemsoft.amax.model.RuleInputEvent;
-import au.com.totemsoft.amax.tool.ExposureKeyEventProducer;
+import au.com.totemsoft.amax.tool.ExposureKeyProducer;
 
-@Component
 public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements LifecycleAware*/ {
 
-    private final ExposureKeyEventProducer exposureKeyProducer;
+    private final ExposureKeyProducer exposureKeyProducer;
 
     private final EvaluateService evaluateService;
 
     private final CacheDao cacheDao;
 
     public RuleProcessor(
-            @Qualifier("exposureKeyProducer") ExposureKeyEventProducer exposureKeyProducer,
+            @Qualifier("exposureKeyProducer") ExposureKeyProducer exposureKeyProducer,
             EvaluateService evaluateService,
             CacheDao cacheDao) {
         super("Rule Processor");
