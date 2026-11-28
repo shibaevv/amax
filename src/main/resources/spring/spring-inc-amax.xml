@@ -91,6 +91,6 @@
     <bean id="beanResolver"          class="org.springframework.context.expression.BeanFactoryResolver" />
 
     <import resource="classpath:spring/spring-inc-aspect.xml" />
-    <!--import resource="classpath:spring/spring-inc-ignite.xml" /-->
+    <import resource="classpath:spring/spring-inc-cache-caffeine.xml" />
 
 </beans>

@@ -16,7 +16,7 @@ public class RulePostProcessor extends AbstractProcessor<RuleEvent> {
 
     @Override
     public void onEvent(RuleEvent event, long sequence, boolean endOfBatch) throws Exception {
-        super.onEvent(event, sequence, endOfBatch);
+        trace(event, sequence, endOfBatch);
         //
         // publishing message via the Event Publisher
         producer.onData(RuleEvent.toCharBuffer(event));

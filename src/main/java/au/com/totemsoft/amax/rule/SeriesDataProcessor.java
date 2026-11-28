@@ -19,19 +19,19 @@ public class SeriesDataProcessor extends AbstractProcessor<SeriesDataEvent> {
 
     public SeriesDataProcessor(
             ExposureKeyProducer exposureKeyProducer) {
-        super("Serie Data Processor");
+        super("SeriesData Processor");
         this.exposureKeyProducer = exposureKeyProducer;
     }
 
     @Override
     public void onEvent(SeriesDataEvent event, long sequence, boolean endOfBatch) throws Exception {
-        super.onEvent(event, sequence, endOfBatch);
+        trace(event, sequence, endOfBatch);
         final Context context = event.getContext();
         final Long ruleId = event.getRuleId();
         final Long exposureKeyId = event.getExposureKeyId();
         // non-empty object
         if (event.getId() != null && event.getId() > 0L) {
-            log(event, sequence, endOfBatch);
+            info(event, sequence, endOfBatch);
             //
             // feed event back to exposureKey processor (has to wrap it as ExposureKeyEvent)
             ExposureKeyEvent wrapper = ExposureKeyEvent.builder()

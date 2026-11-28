@@ -21,15 +21,15 @@ SELECT * FROM (VALUES
 INSERT INTO amax_rule_input
   (name, rule_id, key_id, output_key_id, output_type)
 SELECT * FROM (VALUES
-  ('#I1', 1, 1, 3, 2),
-  ('#I2', 1, 2, 3, 2)
+  ('I1', 1, 1, 3, 2),
+  ('I2', 1, 2, 3, 2)
 ) WHERE NOT EXISTS (SELECT 1 FROM amax_rule_input);
 
 INSERT INTO series_data
   (series_data_date, key_id, series_data_value, currency_base, currency_code, series_data_title)
 SELECT * FROM (VALUES
-  ('20261124', 1, 10.0, 'EUR', 'AUD', null),
-  ('20261124', 2, 20.0, 'EUR', 'AUD', null)
+  (DATEADD('DAY', -1, CURRENT_DATE), 1, RAND() * (1000 - 100) + 100, 'EUR', 'AUD', null),
+  (DATEADD('DAY', -1, CURRENT_DATE), 2, RAND() * (1000 - 100) + 100, 'EUR', 'AUD', null)
 ) WHERE NOT EXISTS (SELECT 1 FROM series_data);
 
 COMMIT;

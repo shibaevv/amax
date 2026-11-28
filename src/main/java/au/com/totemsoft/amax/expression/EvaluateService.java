@@ -68,7 +68,7 @@ public class EvaluateService {
         final long ruleId = event.getId();
         final String expression = event.getExpression();
         final EvaluationContext context = getEvaluationContext(expression);
-        log.info("evaluate rule #" + ruleId + " started '" + expression + "' ..\n");
+        log.info("evaluate rule #{} started '{}' ..\n", ruleId, expression);
         //
         Collection<RuleInputEvent> inputs = event.inputs(false);
         Collection<RuleInputEvent> outputs = event.outputs(false);
@@ -171,9 +171,9 @@ public class EvaluateService {
             //
             // TODO: store outputSd
             //
-            System.out.println();
+            System.out.println("TODO: store outputSd");
         }
-        log.info(".. evaluate rule #" + ruleId + " completed.");
+        log.info(".. evaluate rule #{} completed.", ruleId);
     }
 
     private ExposureKeyEvent findMatch(List<ExposureKeyEvent> eks, RuleInputEvent input) {

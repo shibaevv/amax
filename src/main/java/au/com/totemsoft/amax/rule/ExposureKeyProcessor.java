@@ -27,27 +27,27 @@ public class ExposureKeyProcessor extends AbstractProcessor<ExposureKeyEvent> {
     public ExposureKeyProcessor(
             RuleProducer ruleProducer,
             SeriesDataProducer seriesDataProducer) {
-        super("Exposure Key Processor");
+        super("ExposureKey Processor");
         this.ruleProducer = ruleProducer;
         this.seriesDataProducer = seriesDataProducer;
     }
 
     @Override
     public void onEvent(ExposureKeyEvent event, long sequence, boolean endOfBatch) throws Exception {
-        super.onEvent(event, sequence, endOfBatch);
+        trace(event, sequence, endOfBatch);
         final Context context = event.getContext();
         final Long ruleId = event.getRuleId();
         final Long exposureKeyId = event.getId();
         // constant
         if (exposureKeyId == null) {
-            log(event, sequence, endOfBatch);
+            info(event, sequence, endOfBatch);
             //batchStore.put(ruleId, new LongCharBufferPair(exposureKeyId, RuleEvent.toCharBuffer(new RuleEvent(ruleId, event))));
             return;
         }
         //
         // feed event back to rule processor (has to wrap it as RuleEvent)
         if (event.getSeriesData() == null) {
-            log(event, sequence, endOfBatch);
+            info(event, sequence, endOfBatch);
             batchStore.put(ruleId, new LongCharBufferPair(exposureKeyId,
                 RuleEvent.toCharBuffer(
                     RuleEvent.builder().id(ruleId).exposureKey(event).build()

@@ -12,8 +12,10 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 /*public*/ abstract class AbstractEventTranslator<T> implements EventTranslatorOneArg<T, CharBuffer> {
 
-    protected void log(T event, long sequence) {
-        log.info("[Thread #{}]:{} {}", Thread.currentThread().getId(), sequence, event);
+    private static final String MESSAGE = "[Thread #{}]:{}, {}";
+
+    protected void info(T event, long sequence) {
+        log.info(MESSAGE, Thread.currentThread().getId(), sequence, event);
     }
 
 }

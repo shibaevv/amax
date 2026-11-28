@@ -20,17 +20,17 @@ public class RuleEventTranslator extends AbstractEventTranslator<RuleEvent> {
 
     @Override
     public void translateTo(RuleEvent event, long sequence, CharBuffer data) {
-        log(event, sequence);
+        info(event, sequence);
         try {
             RuleEvent source = RuleEvent.fromString(new String(data.array()));
-            log(source, sequence);
+            info(source, sequence);
             BeanUtils.copyProperties(source, event);
             final Long ruleId = source.getId();
             if (ruleId > 0L) {
                 source = ruleEventDao.findById(ruleId);
                 BeanUtils.copyProperties(source, event, RuleEvent.IGNORE);
             }
-            event.set(sequence);
+            event.setSequence(sequence);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }

@@ -37,7 +37,7 @@ public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements Lif
     @SuppressWarnings("unchecked")
     @Override
     public void onEvent(RuleEvent event, long sequence, boolean endOfBatch) throws Exception {
-        super.onEvent(event, sequence, endOfBatch);
+        trace(event, sequence, endOfBatch);
         final long ruleId = event.getId();
         // check if rule dependencies are complete
         ExposureKeyEvent ekEvent = event.getExposureKey();
@@ -56,7 +56,7 @@ public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements Lif
     }
 
     private void store(RuleEvent event, long sequence, boolean endOfBatch) throws Exception {
-        log(event, sequence, endOfBatch);
+        debug(event, sequence, endOfBatch);
         //
         final long ruleId = event.getId();
         cacheDao.getRuleStore().put(ruleId, event);
@@ -86,8 +86,8 @@ public class RuleProcessor extends AbstractProcessor<RuleEvent> /*implements Lif
 
     @SuppressWarnings("unchecked")
     private void store(ExposureKeyEvent event, long sequence, boolean endOfBatch) throws Exception {
-        log(event, sequence, endOfBatch);
-        if (event.getSeriesData() != null) log(event.getSeriesData(), sequence, endOfBatch);
+        debug(event, sequence, endOfBatch);
+        if (event.getSeriesData() != null) debug(event.getSeriesData(), sequence, endOfBatch);
         final long ruleId = event.getRuleId();
         final ValueWrapper value = cacheDao.getRuleExposureKeyStore().get(ruleId);
         final List<ExposureKeyEvent> exposureKeys;

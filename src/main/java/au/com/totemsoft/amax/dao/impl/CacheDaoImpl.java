@@ -2,8 +2,8 @@ package au.com.totemsoft.amax.dao.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,21 +17,24 @@ import au.com.totemsoft.amax.expression.PerformanceAccess;
 import au.com.totemsoft.amax.model.Context;
 import au.com.totemsoft.amax.model.ExposureKeyEvent;
 import au.com.totemsoft.amax.model.RuleEvent;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Repository
 //@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class CacheDaoImpl implements CacheDao {
 
+    private final CacheManager cacheManager;
+
     private Cache ruleStore; // <Long::ruleId, RuleEvent>
     private Cache ruleExposureKeyStore; // <Long::ruleId, List<ExposureKeyEvent>>
 
-    @Autowired private ExposureKeyEventDao exposureKeyEventDao;
-    @Autowired private SeriesDataEventDao seriesDataEventDao;
+    private final ExposureKeyEventDao exposureKeyEventDao;
+    private final SeriesDataEventDao seriesDataEventDao;
 
     @Override
-    public Cache getCache(String cacheId) {
-        // TODO: Auto-generated method stub
-        return null;
+    public Cache getCache(String name) {
+        return cacheManager.getCache(name);
     }
 
     @Override

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    https://github.com/gridgain/gridgain/blob/master/examples/config/example-cache.xml
+    http://apache-ignite-users.70518.x6.nabble.com/Ignite-as-L2-cache-in-JBoss6-td538.html
+    For best performance you should implement java.io.Externalizable for all cache keys and values.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+    default-lazy-init="false"
+    profile="">
+
+    <cache:annotation-driven />
+
+    <bean id="cacheManager" class="org.springframework.cache.caffeine.CaffeineCacheManager">
+        <property name="cacheNames">
+            <set>
+                <value>ExposureKeyEvent</value>
+                <value>ExposureKeyEvent.findByRuleId</value>
+                <value>RuleEvent</value>
+                <value>RuleInputEvent</value>
+                <value>SeriesDataEvent</value>
+                <value>SeriesDataEvent.findByNaturalId</value>
+            </set>
+        </property>
+        <property name="cacheSpecification" value="initialCapacity=50,maximumSize=500,expireAfterWrite=10m"/>
+    </bean>
+</beans>

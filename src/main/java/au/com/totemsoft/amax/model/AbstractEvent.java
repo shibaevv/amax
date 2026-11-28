@@ -23,11 +23,4 @@ public abstract class AbstractEvent<T> implements IBase<T> {
     @Transient
     private long sequence;
 
-    public long get() {
-        return sequence;
-    }
-    public void set(long sequence) {
-        this.sequence = sequence;
-    }
-
 }
